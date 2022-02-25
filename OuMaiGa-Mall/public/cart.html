@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="Ansonika">
+	<title>购物车</title>
+
+	<!-- Favicons-->
+	<link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="114x114"
+		href="img/apple-touch-icon-114x114-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144"
+		href="img/apple-touch-icon-144x144-precomposed.png">
+
+	<!-- GOOGLE WEB FONT -->
+	<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+	<link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+		as="fetch" crossorigin="anonymous">
+	<script>
+		! function (e, n, t) {
+			"use strict";
+			var o = "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap",
+				r = "__3perf_googleFonts_c2536";
+
+			function c(e) {
+				(n.head || n.body).appendChild(e)
+			}
+
+			function a() {
+				var e = n.createElement("link");
+				e.href = o, e.rel = "stylesheet", c(e)
+			}
+
+			function f(e) {
+				if (!n.getElementById(r)) {
+					var t = n.createElement("style");
+					t.id = r, c(t)
+				}
+				n.getElementById(r).innerHTML = e
+			}
+			e.FontFace && e.FontFace.prototype.hasOwnProperty("display") ? (t[r] && f(t[r]), fetch(o).then(function (e) {
+				return e.text()
+			}).then(function (e) {
+				return e.replace(/@font-face {/g, "@font-face{font-display:swap;")
+			}).then(function (e) {
+				return t[r] = e
+			}).then(f).catch(a)) : a()
+		}(window, document, localStorage);
+	</script>
+
+	<!-- BASE CSS -->
+	<link href="css/bootstrap.custom.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+
+	<!-- SPECIFIC CSS -->
+	<link href="css/cart.css" rel="stylesheet">
+
+</head>
+
+<body onload="showCart(),nameLoad()">
+	<script>
+		// var uid = 1;
+		var totalMoney = 0;
+		var oldNum = 0;
+
+		function updateCart(cartID, inp, price) {
+			var num = parseInt(inp.value);
+			var cid = parseInt(cartID);
+			console.log(inp.parentNode.parentNode.parentNode.children[4]);
+			var p = inp.parentNode.parentNode.parentNode.children[4];
+			if (num <= 0) {
+				inp.value = oldNum;
+				alert("数量不能小于等于0！");
+				return;
+			}
+			// 1.获取异步对象
+			var xhr = new XMLHttpRequest();
+			// 4.创建监听 接收响应信息
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var result = xhr.responseText;
+					p.innerHTML = num * price;
+					var oldPrice = parseInt(total.innerHTML);
+					oldPrice += (num - oldNum) * price;
+					total.innerHTML = oldPrice;
+				}
+			}
+
+			// 2.创建请求
+			xhr.open("post", "/hzwPro/updateCart", true);
+			// 3.发送请求
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			var formdate = `cid=${cid}&num=${num}`;
+			xhr.send(formdate);
+		}
+
+		function getOld(inp) {
+			oldNum = parseInt(inp.value);
+			console.log(oldNum);
+		}
+
+		function showCart() {
+			// 1.获取异步对象
+			var xhr = new XMLHttpRequest();
+			// 4.创建监听 接收响应信息
+			var theuname = localStorage.getItem("name");
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var result = xhr.responseText;
+					var arr = JSON.parse(result);
+					// 结构字符串1
+					var strHTML = ``;
+					// 结构字符串2
+					for (var i = 0; i < arr.length; i++) { //将1和0转换为男和女
+						var obj = $.parseJSON(JSON.stringify(arr[i]));
+						totalMoney += obj.price * obj.num;
+
+						strHTML += `
+							<tr>
+									<td>
+										<div class="thumb_cart">
+											<img src="${obj.imgurl}" data-src="img/products/shoes/1.jpg" class="lazy" alt="Image">
+										</div>
+										<span class="item_cart">${obj.sname}</span>
+									</td>
+									<td>${obj.size}</td>
+									<td>${obj.price}</td>
+									<td>
+										<div class="numbers-row">
+											<input type="text" value="${obj.num}" id="num" class="qty2" name="quantity_1" onblur="updateCart(${obj.cartID},this,${obj.price})" onfocus="getOld(this)">
+										</div>
+									</td>
+									<td >
+										${obj.num*obj.price}
+									</td>
+									<td>
+										<div class="" onclick="deleteCart(${obj.cartID})"><a href="" class="width:50px;font-size:5px;">删除</a></div>
+									</td>
+								</tr>
+							`;
+						strHTML += `
+									</tbody>
+								</table>
+							`;
+					}
+					if(strHTML.length==0){
+						strHTML='<h4 style="color: red;">购物车为空，快去选购吧！<h4/>'
+					}
+					cartItems.innerHTML += strHTML;
+					total.innerHTML = totalMoney;
+				}
+			}
+			// 2.创建请求
+			xhr.open("get", `/hzwPro/showCart/${theuname}`, true);
+			// 3.发送请求
+			xhr.send();
+		}
+
+		function deleteCart(cid) {
+			// 1.获取异步对象
+			var xhr = new XMLHttpRequest();
+			// 4.创建监听 接收响应信息
+			xhr.onreadystatechange = function () {
+				var result = xhr.responseText;
+				//alert(result);
+			}
+			// 2.创建请求
+			xhr.open("get", `/hzwPro/deleteCart/${cid}`, true);
+			// 3.发送请求 
+			xhr.send();
+		}
+
+		function nameLoad() {
+			var $theuname = localStorage.getItem("name");
+			if ($theuname != null) {
+				headimformation.innerHTML = "欢迎你，" + $theuname;
+				var userloginout = document.getElementById("userloginout");
+				userloginout.style.display = "block";
+			} else {
+				alert("请先登录！");
+				location.href = "./login.html";
+			}
+		}
+
+		function loginout() {
+			localStorage.clear();
+			headimformation.innerHTML = "登录或注册";
+		}
+	</script>
+
+	<div id="page">
+
+		<header class="version_1">
+			<div class="layer"></div><!-- Mobile menu overlay mask -->
+			<div class="main_header">
+				<div class="container">
+					<div class="row small-gutters">
+						<div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
+							<div id="logo">
+								<a href="index.html"><img src="img/brands/logo.png" alt="" width="150" height="55"></a>
+							</div>
+						</div>
+						<nav class="col-xl-6 col-lg-7">
+
+							<!-- Mobile menu button -->
+							<div class="main-menu">
+								<div id="header_menu">
+									<a href="index.html"><img src="img/logo_black.svg" alt="" width="100"
+											height="35"></a>
+									<a href="#" class="open_close" id="close_in"><i class="ti-close"></i></a>
+								</div>
+
+							</div>
+							<!--/main-menu -->
+						</nav>
+
+					</div>
+					<!-- /row -->
+				</div>
+			</div>
+			<!-- /main_header -->
+
+			<div class="main_nav inner Sticky">
+				<div class="container">
+					<div class="row small-gutters">
+						<div class="col-xl-3 col-lg-3 col-md-3" style="width: 300px;height: 60px;padding-top: 25px;">
+							<div class="page_header">
+								<div class="breadcrumbs">
+									<ul>
+										<li><a href="./index.html">主页</a></li>
+										<li><a href="#">我的购物车</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 col-lg-7 col-md-6 d-none d-md-block">
+							<div class="custom-search-input" style="display: none;">
+								<!-- <input type="text" placeholder="搜索商品" id="searchName">
+								<button type="submit" onclick="search()"><i class="header-icon_search_custom"></i></button> -->
+							</div>
+						</div>
+						<div class="col-xl-3 col-lg-2 col-md-3">
+							<ul class="top_tools">
+								<li>
+									<div class="dropdown dropdown-cart">
+										<a href="cart.html" class="cart_bt"><strong>2</strong></a>
+										<div class="dropdown-menu">
+											<!-- <ul>
+												<li>
+													<a href="product-detail-1.html">
+														<figure><img src="img/products/product_placeholder_square_small.jpg" data-src="img/products/shoes/thumb/1.jpg" alt="" width="50" height="50" class="lazy"></figure>
+														<strong><span>1x Armor Air x Fear</span>$90.00</strong>
+													</a>
+													<a href="#0" class="action"><i class="ti-trash"></i></a>
+												</li>											
+											</ul> -->
+											<div class="total_drop">
+												<div class="clearfix">
+													<strong>Total</strong>
+													<!-- <span>$200.00</span> -->
+												</div>
+												<a href="./cart.html" class="btn_1 outline">查看购物车</a><a href="./checkout.html" class="btn_1">去结算</a>
+											</div>
+										</div>
+									</div>
+									<!-- /dropdown-cart-->
+								</li>
+								<li>
+									<a href="./wishlist.html" class="wishlist"><span>心愿单</span></a>
+								</li>
+								<li>
+									<div class="dropdown dropdown-access">
+										<a href="account.html" class="access_link"><span>账号</span></a>
+										<div class="dropdown-menu">
+											<a href="#" class="btn_1" id="headimformation">登录或注册</a>
+											<ul>								
+												<li>
+													<a href="./myorder.html"><i class="ti-package"></i>我的订单</a>
+												</li>
+												<li>
+													<a href="./persondetail.html"><i class="ti-user"></i>我的账户</a>
+												</li>
+												<li id="userloginout" style="display:none;" onclick="loginout()">
+													<a href="./login.html"><i class="ti-user"></i>退出账号</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<!-- /dropdown-access-->
+								</li>
+								<li>
+									<a href="javascript:void(0);" class="btn_search_mob"><span>搜索</span></a>
+								</li>
+								<li>
+									<a href="#menu" class="btn_cat_mob">
+										<div class="hamburger hamburger--spin" id="hamburger">
+											<div class="hamburger-box">
+												<div class="hamburger-inner"></div>
+											</div>
+										</div>
+										Categories
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- /row -->
+				</div>
+				<div class="search_mob_wp">
+					<input type="text" class="form-control" placeholder="Search over 10.000 products">
+					<input type="submit" class="btn_1 full-width" value="Search">
+				</div>
+				<!-- /search_mobile -->
+			</div>
+			<!-- /main_nav -->
+		</header>
+		<!-- /header -->
+
+		<main class="bg_gray">
+			<div class="container margin_30">
+				<div class="page_header">
+
+					<h1>购物车</h1>
+				</div>
+				<!-- /page_header -->
+				<table class="table table-striped cart-list" id="cartItems">
+					<thead>
+						<tr>
+							<th>
+								商品
+							</th>
+							<th>
+								尺码
+							</th>
+							<th>
+								价格
+							</th>
+							<th>
+								数量
+							</th>
+							<th>
+								总价
+							</th>
+							<th>
+
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+
+				<div class="row add_top_30 flex-sm-row-reverse cart_actions">
+					<div class="col-sm-4 text-right">
+						<!-- <button type="button" class="btn_1 gray" onclick="updateCart()">更新购物车</button> -->
+					</div>
+					<div class="col-sm-8">
+						<div class="apply-coupon">
+							<div class="form-group form-inline">
+								<input type="text" name="coupon-code" value="" placeholder="心动不如行动"
+									class="form-control">
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /cart_actions -->
+
+			</div>
+			<!-- /container -->
+
+			<div class="box_cart">
+				<div class="container">
+					<div class="row justify-content-end">
+						<div class="col-xl-4 col-lg-4 col-md-6">
+							<ul>
+								全部商品价格 ：<span id="total"> </span>
+								</li>
+							</ul>
+							<a href="./checkout.html" class="btn_1 full-width cart">去结算</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /box_cart -->
+
+		</main>
+		<!--/main-->
+
+		<footer class="revealed">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3 col-md-6">
+						<h3 data-target="#collapse_1">产品</h3>
+						<div class="collapse dont-collapse-sm links" id="collapse_1">
+							<ul>
+								<li><a href="#">最新上市</a></li>
+								<li><a href="#">限量发售</a></li>
+								<li><a href="#">新品发售日历</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<h3 data-target="#collapse_2">运动</h3>
+						<div class="collapse dont-collapse-sm links" id="collapse_2">
+							<ul>
+								<li><a href="#">跑步</a></li>
+								<li><a href="#">训练</a></li>
+								<li><a href="#">足球</a></li>
+								<li><a href="#">篮球</a></li>
+								<li><a href="#">室外</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<h3 data-target="#collapse_3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帮助中心
+						</h3>
+						<div class="collapse dont-collapse-sm contacts" id="collapse_3">
+							<ul>
+								<li><a href="#">会员</a></li>
+								<li><a href="#">尺码表</a></li>
+								<li><a href="#">关于我们</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<h3 data-target="#collapse_4">联系我们</h3>
+						<div class="collapse dont-collapse-sm" id="collapse_4">
+							<div id="newsletter">
+								<div class="form-group">
+									<input type="email" name="email_newsletter" id="email_newsletter"
+										class="form-control" placeholder="你的邮箱">
+									<button type="submit" id="submit-newsletter"><i
+											class="ti-angle-double-right"></i></button>
+								</div>
+							</div>
+							<div class="follow_us">
+								<h5>关注我们</h5>
+								<ul>
+									<li><a
+											href="https://weibo.com/n/%e5%8d%8e%e5%8d%97%e5%b8%88%e8%8c%83%e5%a4%a7%e5%ad%a6"><img
+												src="img/svg/微博.svg" alt="" class="lazy"></a></li>
+									<li><a
+											href="https://space.bilibili.com/628111933?from=search&seid=16911714929460060424&spm_id_from=333.337.0.0"><img
+												src="img/svg/wf_B站.svg" alt="" class="lazy"></a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /row-->
+				<hr>
+				<div class="row add_bottom_25">
+					<div class="col-lg-6">
+						<ul class="footer-selector clearfix">
+							<li>
+								<div class="styled-select lang-selector">
+									<select>
+										<option value="Chinese" selected>中文</option>
+										<option value="English">English</option>
+										<option value="French">French</option>
+										<option value="Spanish">Spanish</option>
+										<option value="Russian">Russian</option>
+									</select>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="col-lg-6">
+						<ul class="additional_links">
+							<li><a href="#">SCNU</a></li>
+							<li><span>© 2021</span></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!--/footer-->
+	</div>
+	<!-- page -->
+
+	<div id="toTop"></div><!-- Back to top button -->
+
+	<!-- COMMON SCRIPTS -->
+	<script src="js/common_scripts.min.js"></script>
+	<script src="js/main.js"></script>
+
+
+</body>
+
+</html>

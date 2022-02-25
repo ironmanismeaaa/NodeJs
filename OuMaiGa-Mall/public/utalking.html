@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!-- BASE CSS -->
+		<link href="css/bootstrap.custom.min.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
+		<link href="css/chat.css" rel="stylesheet" />
+		<script src="js/utalk.js"></script>
+		<title>客服聊天页面</title>
+		<script>
+			
+		</script>
+	</head>
+	<body>
+		<header class="version_1">
+				<div class="layer"></div><!-- Mobile menu overlay mask -->
+				<div class="main_header">
+					<div class="container">
+						<div class="row small-gutters">
+							<div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
+								<div id="logo">
+									<a href="index.html"><img src="img/brands/logo.png" alt="" width="150" height="55"></a>
+								</div>
+							</div>
+							<nav class="col-xl-6 col-lg-7">
+								<a class="open_close" href="javascript:void(0);">
+									<div class="hamburger hamburger--spin">
+										<div class="hamburger-box">
+											<div class="hamburger-inner"></div>
+										</div>
+									</div>
+								</a>
+								<!-- Mobile menu button -->
+								<div class="main-menu">
+									<div id="header_menu">
+										<a href="index.html"><img src="img/logo_black.svg" alt="" width="100" height="35"></a>
+										<a href="#" class="open_close" id="close_in"><i class="ti-close"></i></a>
+									</div>
+								</div>
+								<!--/main-menu -->
+							</nav>
+							
+						</div>
+						<!-- /row -->
+					</div>
+				</div>
+				<!-- /main_header -->
+		
+		</header>
+			
+		<div class="main">
+			<div class="left1">
+				<div class="left_up">
+					<div class="headimg">
+					</div>
+					<div id="nowname" class="headname">
+						aa
+					</div>
+					
+				</div>
+				
+				<div class="left_down">
+					<div class="person"  onmouseover='style="background-color: white;"' onmouseout='style="background-color: #f4f4f4;"'>
+						<div class="list_tk">
+						</div>
+						<div class="list_name">
+							<span style="font-weight: 550;">商家</span>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<div class="right1">
+				<div class="right_up">
+					<div class="bname">
+						商家
+					</div>
+					
+				</div>
+				
+				<div class="right_mid">
+					<div id="rec" class="inner_div">
+						
+					</div>
+				</div>
+				
+				<div class="right_down">
+					<div class="right_down_up">
+						<img width="20px" height="20px" style="margin-left: 15px;" src="img/express/face.png" />
+						<img width="20px" height="20px" style="margin-left: 15px;" src="img/express/add.png" />
+					</div>
+					<div class="right_down_mid">
+						<textarea id="txt" autofocus class="content"></textarea>
+						
+					</div>
+					<div class="right_down_down">
+						<button onclick="submit()" class="bt1" onmouseover='style="background-color: #609dff;"' onmouseout='style="background-color: #f8f8f8;"'>提交</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

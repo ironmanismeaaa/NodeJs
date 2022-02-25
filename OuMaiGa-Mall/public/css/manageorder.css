@@ -1,0 +1,159 @@
+.box_order {
+    background-color: #fff;
+    padding: 30px 0;
+    text-align: right
+}
+
+@media (max-width: 767px) {
+    .box_order {
+        padding: 30px 0
+    }
+}
+
+.thumb_order {
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    margin-right: 10px;
+    float: left;
+    position: relative;
+    background-color: #fff;
+    padding: 5px;
+    box-sizing: content-box
+}
+
+.thumb_order img {
+    width: 60px;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%) scale(1.1);
+    -moz-transform: translate(-50%, -50%) scale(1.1);
+    -ms-transform: translate(-50%, -50%) scale(1.1);
+    -o-transform: translate(-50%, -50%) scale(1.1);
+    transform: translate(-50%, -50%) scale(1.1)
+}
+
+@media (max-width: 991px) {
+    .thumb_order {
+        display: none
+    }
+}
+
+.table.order-list {
+    margin: 0
+}
+
+.table.order-list th{
+    background-color: transparent;
+    text-transform: uppercase;
+    color: #111;
+    border: 0;
+    padding-top: 0
+}
+
+.table.order-list th:nth-child(1) {
+    width: 50%
+}
+
+.table.order-list th:nth-child(2) {
+    width: 8%
+}
+
+.table.order-list th:nth-child(3) {
+    width: 8%
+}
+
+.table.order-list th:nth-child(4) {
+    width: 12%
+}
+
+.table.order-list td {
+    vertical-align: middle;
+    border: 0
+}
+
+.table.order-list td strong {
+    font-weight: 500
+}
+
+.table.order-list.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.045)
+}
+
+@media (max-width: 767px) {
+
+    .table.order-list,
+    .table.order-list thead,
+    .table.order-list tbody,
+    .table.order-list th,
+    .table.order-list td,
+    .table.order-list tr {
+        display: block;
+        border: 0
+    }
+
+    .table.order-list thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px
+    }
+
+    .table.order-list tr {
+        border: 1px solid #ddd
+    }
+}
+
+@media (max-width: 767px) and (max-width: 991px) {
+    .table.order-list tr {
+        margin-bottom: 20px
+    }
+}
+
+@media (max-width: 767px) {
+    .table.order-list td {
+        border: none;
+        border-bottom: 1px solid #ddd;
+        position: relative;
+        padding-left: 35%
+    }
+
+    .table.order-list td:before {
+        position: absolute;
+        top: 12px;
+        left: 5px;
+        width: 25%;
+        padding-right: 10px;
+        white-space: nowrap
+    }
+
+    .table.order-list td:nth-of-type(1):before,
+    .table.order-list td:nth-of-type(2):before,
+    .table.order-list td:nth-of-type(3):before,
+    .table.order-list td:nth-of-type(4):before,
+    .table.order-list td:nth-of-type(5):before {
+        font-weight: 700;
+        color: #111
+    }
+
+    .table.order-list td:nth-of-type(1):before {
+        content: "订单商品"
+    }
+
+    .table.order-list td:nth-of-type(2):before {
+        content: "状态"
+    }
+
+    .table.order-list td:nth-of-type(3):before {
+        content: "收货人"
+    }
+
+    .table.order-list td:nth-of-type(4):before {
+        content: "电话"
+    }
+
+    .table.order-list td:nth-of-type(5):before {
+        content: "收货地址"
+    }
+}

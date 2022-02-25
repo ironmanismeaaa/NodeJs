@@ -1,0 +1,262 @@
+.main{
+	margin: 10px auto;
+	height: 600px;
+	width: 850px;
+	/* border: 2px solid black; */
+	display: flex;
+	flex-direction: row;
+}
+
+body{
+	background-color: #acacac;
+}
+
+.left1,.right1{
+	border-right: 1px solid #c5c5c5;
+	background-color: #ebebeb;
+}
+
+
+
+.left_up{
+	/* border: 1px solid black; */
+	width: 251px;
+	height: 80px;
+	background-color: #327bf2;
+	display: flex;
+	flex-direction: row;
+}
+
+.left_down{
+	/* border: 1px solid black; */
+	height: 520px;
+	width: 250px;
+	background-color: #ebebeb;
+}
+
+.right_up{
+	/* border: 1px solid black; */
+	border-bottom: 1px solid #c5c5c5;
+	width: 600px;
+	height: 60px;
+	background-color: #ebebeb;
+}
+
+.right_mid{
+	/* border: 1px solid black; */
+	width: 600px;
+	height: 380px;
+	overflow:hidden;
+	position: relative;
+	/* background-color: #00CC00; */
+}
+
+.inner_div{
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: -17px;
+	bottom: 0;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+.headimg{
+	border-radius: 50%;
+	width: 55px;
+	height: 55px;
+	margin-top: 12px;
+	margin-left: 12px;
+	background-image: url(../img/express/ut.png);
+	background-size: cover;
+}
+
+.headname{
+	height: 55px;
+	width: 100px;
+	line-height: 55px;
+	margin-left: 13px;
+	font-size: 20px;
+	color: #eeeeee;
+}
+
+.person{
+	display: flex;
+	flex-direction: row;
+	border-bottom: 1px solid #c5c5c5;
+	/* border: 1px solid #c5c5c5; */
+	width: 251px;
+	height: 60px;
+	align-items: center;
+	background-color: #f4f4f4;
+}
+
+.list_tk{
+	border-radius: 50%;
+	width: 43px;
+	height: 43px;
+	/* margin-top: 9px;	 */
+	margin-left: 9px;
+	background-image: url(../img/express/st.png);
+	background-size: cover;
+}
+
+.list_tk1{
+	border-radius: 50%;
+	width: 43px;
+	height: 43px;
+	/* margin-top: 9px;	 */
+	margin-left: 9px;
+	background-image: url(../img/express/ut.png);
+	background-size: cover;
+}
+
+.list_name{
+	width: 180px;
+	height: 50px;
+	margin-left: 8px;
+	margin-top: 15px;
+}
+
+.bname{
+	height: 60px;
+	width: 100px;
+	line-height: 60px;
+	font-size: 20px;
+	margin-left: 20px;
+}
+
+.user-group{
+    padding: 6px;
+    display: flex;
+    display: -webkit-flex;
+	justify-content: flex-end;
+	-webkit-justify-content: flex-end;
+}
+
+.user-msg{
+	width: 75%;
+	position: relative;
+    text-align: right;
+}
+
+i.triangle-user{
+    right: 4px;
+    border-left: 12px solid #9EEA6A;
+}
+
+.user-img{
+    width: 45px;
+    height: 45px;
+	border-radius: 50%;
+}
+
+.user-reply{
+    display: inline-block;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #fff;
+    margin:0 15px 12px;
+	text-align: left;
+	background-color: #9EEA6A;
+	box-shadow: 0px 0px 2px #bbb;
+}
+
+.admin-group{
+	padding: 6px;
+	display: flex;
+	display: -webkit-flex;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+}
+
+.admin-msg{
+    width: 75%;
+    position: relative;
+}
+
+i.triangle-admin{
+    left: 4px;
+    border-right: 12px solid #fff;
+}
+
+.admin-reply{
+	display: inline-block;
+	padding: 8px;
+	border-radius: 4px;
+	background-color: #fff;
+	margin:0 15px 12px;
+    box-shadow: 0px 0px 2px #ddd;
+}
+
+.admin-img{
+    width: 45px;
+    height: 45px;
+	border-radius: 50%;
+}
+
+i.triangle-admin,i.triangle-user{
+    width: 0;
+	height: 0;
+	position: absolute;
+	top: 10px;
+    display: inline-block;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+}
+
+.right_down{
+	width: 600px;
+	height: 160px;
+}
+
+.right_down_up{
+	width: 600px;
+	height: 30px;
+	/* border: 1px solid black; */
+	border-top: 1px solid #c5c5c5;
+	display: flex;
+	align-items: center;
+}
+
+.right_down_mid{
+	width: 600px;
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.content{
+	width: 570px;
+	height: 80px;
+	overflow: hidden;
+	border: none;
+	resize: none;
+	outline: none;
+	background-color: #ebebeb;
+}
+
+.right_down_down{
+	width: 600px;
+	height: 50px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.bt1{
+	width: 70px;
+	height: 25px;
+	margin-right: 15px;
+	/* border: 1px solid #f8f8f8; */
+	/* border: 1px solid #f8f8f8; */
+	border: none;
+	border-radius: 10%;
+	background-color: #f8f8f8;
+	outline: none;
+}
+
+.bt1:focus{
+	outline: none;
+}

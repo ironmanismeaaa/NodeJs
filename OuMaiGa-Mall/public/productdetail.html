@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="Ansonika">
+	<title>商品详情页</title>
+
+	<!-- Favicons-->
+	<link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="114x114"
+		href="img/apple-touch-icon-114x114-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144"
+		href="img/apple-touch-icon-144x144-precomposed.png">
+
+	<!-- GOOGLE WEB FONT -->
+	<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+	<link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+		as="fetch" crossorigin="anonymous">
+	<script>
+		! function (e, n, t) {
+			"use strict";
+			var o = "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap",
+				r = "__3perf_googleFonts_c2536";
+
+			function c(e) {
+				(n.head || n.body).appendChild(e)
+			}
+
+			function a() {
+				var e = n.createElement("link");
+				e.href = o, e.rel = "stylesheet", c(e)
+			}
+
+			function f(e) {
+				if (!n.getElementById(r)) {
+					var t = n.createElement("style");
+					t.id = r, c(t)
+				}
+				n.getElementById(r).innerHTML = e
+			}
+			e.FontFace && e.FontFace.prototype.hasOwnProperty("display") ? (t[r] && f(t[r]), fetch(o).then(function (e) {
+				return e.text()
+			}).then(function (e) {
+				return e.replace(/@font-face {/g, "@font-face{font-display:swap;")
+			}).then(function (e) {
+				return t[r] = e
+			}).then(f).catch(a)) : a()
+		}(window, document, localStorage);
+	</script>
+
+	<!-- BASE CSS -->
+	<link href="css/bootstrap.custom.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+
+	<!-- SPECIFIC CSS -->
+	<link href="css/product_page.css" rel="stylesheet">
+
+</head>
+
+<body onload="productDetail(),related(),nameLoad(),showComm(),wishstate()">
+
+	<div id="page">
+
+		<header class="version_1">
+			<div class="layer"></div><!-- Mobile menu overlay mask -->
+			<div class="main_header">
+				<div class="container">
+					<div class="row small-gutters">
+						<div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
+							<div id="logo">
+								<a href="#"><img src="img/brands/logo.png" alt="" width="150" height="55"></a>
+							</div>
+						</div>
+
+		
+					</div>
+					<!-- /row -->
+				</div>
+			</div>
+			<!-- /main_header -->
+			<div class="main_nav inner Sticky">
+				<div class="container">
+					<div class="row small-gutters">
+						<div class="col-xl-3 col-lg-3 col-md-3" style="width: 300px;height: 60px;padding-top: 25px;">
+							<div class="page_header">
+								<div class="breadcrumbs">
+									<ul>
+										<li><a href="./index.html">主页</a></li>
+										<li><a href="#" id="si"></a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 col-lg-7 col-md-6 d-none d-md-block">
+							<div class="custom-search-input" style="display: none;">
+								<!-- <input type="text" placeholder="搜索商品" id="searchName">
+								<button type="submit" onclick="search()"><i class="header-icon_search_custom"></i></button> -->
+							</div>
+						</div>
+						<div class="col-xl-3 col-lg-2 col-md-3">
+							<ul class="top_tools">
+								<li>
+									<div class="dropdown dropdown-cart">
+										<a href="cart.html" class="cart_bt"><strong>2</strong></a>
+										<div class="dropdown-menu">
+											<!-- <ul>
+												<li>
+													<a href="product-detail-1.html">
+														<figure><img src="img/products/product_placeholder_square_small.jpg" data-src="img/products/shoes/thumb/1.jpg" alt="" width="50" height="50" class="lazy"></figure>
+														<strong><span>1x Armor Air x Fear</span>$90.00</strong>
+													</a>
+													<a href="#0" class="action"><i class="ti-trash"></i></a>
+												</li>											
+											</ul> -->
+											<div class="total_drop">
+												<div class="clearfix">
+													<strong>Total</strong>
+													<!-- <span>$200.00</span> -->
+												</div>
+												<a href="./cart.html" class="btn_1 outline">查看购物车</a><a href="./checkout.html" class="btn_1">去结算</a>
+											</div>
+										</div>
+									</div>
+									<!-- /dropdown-cart-->
+								</li>
+								<li>
+									<a href="./wishlist.html" class="wishlist"><span>心愿单</span></a>
+								</li>
+								<li>
+									<div class="dropdown dropdown-access">
+										<a href="account.html" class="access_link"><span>账号</span></a>
+										<div class="dropdown-menu">
+											<a href="#" class="btn_1" id="headimformation">登录或注册</a>
+											<ul>								
+												<li>
+													<a href="./myorder.html"><i class="ti-package"></i>我的订单</a>
+												</li>
+												<li>
+													<a href="./persondetail.html"><i class="ti-user"></i>我的账户</a>
+												</li>
+												<li id="userloginout" style="display:none;" onclick="loginout()">
+													<a href="./login.html"><i class="ti-user"></i>退出账号</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<!-- /dropdown-access-->
+								</li>
+								<li>
+									<a href="javascript:void(0);" class="btn_search_mob"><span>搜索</span></a>
+								</li>
+								<li>
+									<a href="#menu" class="btn_cat_mob">
+										<div class="hamburger hamburger--spin" id="hamburger">
+											<div class="hamburger-box">
+												<div class="hamburger-inner"></div>
+											</div>
+										</div>
+										Categories
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- /row -->
+				</div>
+				<div class="search_mob_wp">
+					<input type="text" class="form-control" placeholder="Search over 10.000 products">
+					<input type="submit" class="btn_1 full-width" value="Search">
+				</div>
+				<!-- /search_mobile -->
+			</div>
+			<!-- /main_nav -->
+		</header>
+		<!-- /header -->
+
+		<main>
+			<div class="container margin_30">
+				<div class="countdown_inner">-20% 的优惠价将结束于 <div data-countdown="2022/2/1" class="countdown"></div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="all">
+							<div class="slider">
+								<div class="item-box"
+									style="display: flex; justify-content: center; align-items: center;">
+									<img id="item-box" src="" />
+								</div>
+								<!-- <div class="owl-carousel owl-theme main">
+	                            <div style="background-image: url(img/products/shoes/1.jpg);" class="item-box"></div>
+	                            <div style="background-image: url(img/products/shoes/2.jpg);" class="item-box"></div>
+	                            <div style="background-image: url(img/products/shoes/3.jpg);" class="item-box"></div>
+	                            <div style="background-image: url(img/products/shoes/4.jpg);" class="item-box"></div>
+	                            <div style="background-image: url(img/products/shoes/5.jpg);" class="item-box"></div>
+	                            <div style="background-image: url(img/products/shoes/6.jpg);" class="item-box"></div>
+	                        </div> -->
+								<!-- <div class="left nonl"><i class="ti-angle-left"></i></div>
+	                        <div class="right"><i class="ti-angle-right"></i></div> -->
+							</div>
+
+						</div>
+					</div>
+					<div class="col-md-6">
+
+						<!-- /page_header -->
+						<div class="prod_info">
+							<h1 id="h1c1"></h1>
+
+							<p id="sma1" style="font-size: medium;"></p>
+							<p id="type1" style="font-size: medium;"></p>
+							<div class="prod_options">
+								<div class="row">
+									<!-- <label class="col-xl-5 col-lg-5  col-md-6 col-6 pt-0"><strong>颜色</strong></label> -->
+									<!-- <div class="col-xl-4 col-lg-5 col-md-6 col-6 colors">
+	                                <ul>
+	                                    <li><a href="#0" class="color color_1 active"></a></li>
+	                                    <li><a href="#0" class="color color_2"></a></li>
+	                                    <li><a href="#0" class="color color_3"></a></li>
+	                                    <li><a href="#0" class="color color_4"></a></li>
+	                                </ul>
+	                            </div> -->
+								</div>
+								<div class="row">
+									<label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>大小</strong> -尺寸大小 <a
+											href="#0" data-toggle="modal" data-target="#size-modal"><i
+												class="ti-help-alt"></i></a></label>
+									<div class="col-xl-4 col-lg-5 col-md-6 col-6">
+										<div class="custom-select-form">
+											<select class="wide" id="shoeSize">
+												<option value="35" selected>35</option>
+												<option value="36">36</option>
+												<option value="37">37</option>
+												<option value="38">38</option>
+												<option value="39">39</option>
+												<option value="40">40</option>
+												<option value="41">41</option>
+												<option value="42">42</option>
+												<option value="43">43</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>数量</strong></label>
+									<div class="col-xl-4 col-lg-5 col-md-6 col-6">
+										<div class="numbers-row">
+											<input type="text" value="1" id="quantity_1" class="qty2" name="quantity_1">
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<div class="row">
+								<div class="col-lg-5 col-md-6">
+									<div class="price_main"><span class="new_price" id="new_price"></span><span
+											class="percentage">-20%</span> <span class="old_price"
+											id="old_price"></span></div>
+								</div>
+								<div class="col-lg-4 col-md-6">
+									<div class="btn_add_to_cart" onclick="addCart()"><a href="" class="btn_1">添加到购物车</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /prod_info -->
+						<div class="product_actions">
+							<ul>
+								<li id="nid" onclick="addtoWish(id)">
+									<a href="#"><i class="ti-heart" id="wishi"></i><span id="wishsapn">添加到心愿单</span></a>
+								</li>
+								<li>
+									<a href="./utalking.html"><i class="ti-control-shuffle"></i><span>联系客服</span></a>
+								</li>
+
+							</ul>
+						</div>
+						<!-- /product_actions -->
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+
+			<div class="tabs_product">
+				<div class="container">
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item">
+							<a id="tab-A" href="#pane-A" class="nav-link active" data-toggle="tab" role="tab">规格</a>
+						</li>
+						<li class="nav-item">
+							<a id="tab-B" href="#pane-B" class="nav-link" data-toggle="tab" role="tab">评论</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- /tabs_product -->
+			<div class="tab_content_wrapper">
+				<div class="container">
+					<div class="tab-content" role="tablist">
+						<div id="pane-A" class="card tab-pane fade active show" role="tabpanel" aria-labelledby="tab-A">
+							<div class="card-header" role="tab" id="heading-A">
+								<h5 class="mb-0">
+									<a class="collapsed" data-toggle="collapse" href="#collapse-A" aria-expanded="false"
+										aria-controls="collapse-A">
+										详情
+									</a>
+								</h5>
+							</div>
+							<div id="collapse-A" class="collapse" role="tabpanel" aria-labelledby="heading-A">
+								<div class="card-body">
+									<div class="row justify-content-between">
+										<div class="col-lg-6">
+											<div class="table-responsive">
+												<table class="table table-sm table-striped">
+													<tbody id="guige1">
+													</tbody>
+												</table>
+											</div>
+
+										</div>
+										<div class="col-lg-5">
+											<div class="table-responsive">
+												<table class="table table-sm table-striped">
+													<tbody id="guige2">
+													</tbody>
+												</table>
+											</div>
+											<!-- /table-responsive -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /TAB A -->
+						<div id="pane-B" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
+							<div class="card-header" role="tab" id="heading-B">
+								<h5 class="mb-0">
+									<a class="collapsed" data-toggle="collapse" href="#collapse-B" aria-expanded="false"
+										aria-controls="collapse-B">
+										评价
+									</a>
+								</h5>
+							</div>
+							<div id="collapse-B" class="collapse" role="tabpanel" aria-labelledby="heading-B">
+								<div id="shoeComms" class="card-body">
+									尚无评论！
+									<!-- /row -->
+									<!-- <div class="row justify-content-between">
+	                                <div class="col-lg-6">
+	                                    <div class="review_content">
+	                                        <div class="clearfix add_bottom_10">
+	                                            <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><em>5.0/5.0</em></span>
+	                                            <em>Published 4 days ago</em>
+	                                        </div>
+	                                        <h4>"Excellent"</h4>
+	                                        <p>Sit commodo veritus te, erat legere fabulas has ut. Rebum laudem cum ea, ius essent fuisset ut. Viderer petentium cu his.</p>
+	                                    </div>
+	                                </div>
+	                            </div> -->
+									<!-- /row -->
+									<!-- <p class="text-right"><button class="btn_1" onclick="toComm()">评价</button></p> -->
+								</div>
+								<!-- /card-body -->
+							</div>
+						</div>
+						<!-- /tab B -->
+					</div>
+					<!-- /tab-content -->
+				</div>
+				<!-- /container -->
+			</div>
+			<!-- /tab_content_wrapper -->
+
+			<div class="container margin_60_35">
+				<div class="main_title">
+					<h2>Related</h2>
+					<span>Products</span>
+					<!-- <p>A thousand miles begins with a single step</p> -->
+				</div>
+				<div class="owl-carousel owl-theme products_carousel owl-loaded owl-drag">
+
+					<!-- /item -->
+
+					<!-- /item -->
+
+					<!-- /item -->
+
+					<!-- /item -->
+
+					<!-- /item -->
+					<div class="owl-stage-outer">
+						<div class="owl-stage"
+							style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1181px;">
+							<div class="owl-item active" style="width: 226.2px; margin-right: 10px;">
+								<div class="item">
+									<div class="grid_item">
+										<span class="ribbon new">New</span>
+										<figure>
+											<a href="" id="href11">
+												<img class="owl-lazy" src="" alt="" id="img1">
+											</a>
+										</figure>
+										<a href="" id="href12">
+											<h3 id="sid1"></h3>
+										</a>
+										<div class="price_box">
+											<span class="new_price" id="price1"></span>
+										</div>
+									</div>
+									<!-- /grid_item -->
+								</div>
+							</div>
+							<div class="owl-item active" style="width: 226.2px; margin-right: 10px;">
+								<div class="item">
+									<div class="grid_item">
+										<span class="ribbon new">New</span>
+										<figure>
+											<a href="" id="href21">
+												<img class="owl-lazy" src="" alt="" id="img2">
+											</a>
+										</figure>
+										<a href="" id="href22">
+											<h3 id="sid2"></h3>
+										</a>
+										<div class="price_box">
+											<span class="new_price" id="price2"></span>
+										</div>
+									</div>
+									<!-- /grid_item -->
+								</div>
+							</div>
+							<div class="owl-item active" style="width: 226.2px; margin-right: 10px;">
+								<div class="item">
+									<div class="grid_item">
+										<span class="ribbon new">New</span>
+										<figure>
+											<a href="" id="href31">
+												<img class="owl-lazy" src="" alt="" id="img3">
+											</a>
+										</figure>
+										<a href="" id="href32">
+											<h3 id="sid3"></h3>
+										</a>
+										<div class="price_box">
+											<span class="new_price" id="price3"></span>
+										</div>
+									</div>
+									<!-- /grid_item -->
+								</div>
+							</div>
+							<div class="owl-item active" style="width: 226.2px; margin-right: 10px;">
+								<div class="item">
+									<div class="grid_item">
+										<span class="ribbon hot">Hot</span>
+										<figure>
+											<a href="" id="href41">
+												<img class="owl-lazy" src="" alt="" id="img4">
+											</a>
+										</figure>
+										<a href="" id="href42">
+											<h3 id="sid4"></h3>
+										</a>
+										<div class="price_box">
+											<span class="new_price" id="price4"></span>
+										</div>
+									</div>
+									<!-- /grid_item -->
+								</div>
+							</div>
+							<div class="owl-item" style="width: 226.2px; margin-right: 10px;">
+								<div class="item">
+									<div class="grid_item">
+										<span class="ribbon hot">Hot</span>
+										<figure>
+											<a href="" id="href51">
+												<img src="" alt="" id="img5">
+											</a>
+										</figure>
+										<a href="" id="href52">
+											<h3 id="sid5"></h3>
+										</a>
+										<div class="price_box">
+											<span class="new_price" id="price5"></span>
+										</div>
+									</div>
+									<!-- /grid_item -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="owl-nav"><button type="button" role="presentation" class="owl-prev disabled"><i
+								class="ti-angle-left"></i></button><button type="button" role="presentation"
+							class="owl-next"><i class="ti-angle-right"></i></button></div>
+					<!-- <div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button></div> -->
+					<!-- /products_carousel -->
+				</div>
+				<!-- /container -->
+
+				<div class="feat">
+					<div class="container">
+						<ul>
+							<li>
+								<div class="box">
+									<i class="ti-gift"></i>
+									<div style="justify-content: center !important;">
+										<h3>免运费</h3>
+										<p>对超过99元的订单</p>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="box">
+									<i class="ti-wallet"></i>
+									<div style="justify-content: center !important;">
+										<h3>安全支付</h3>
+										<p>100% 安全保障</p>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="box">
+									<i class="ti-headphone-alt"></i>
+									<div style="justify-content: center !important;">
+										<h3>24/7客服在线</h3>
+										<p>令人满意的服务</p>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!--/feat-->
+
+		</main>
+		<!-- /main -->
+
+		<footer class="revealed">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3 col-md-6">
+						<h3 data-target="#collapse_1">产品</h3>
+						<div class="collapse dont-collapse-sm links" id="collapse_1">
+							<ul>
+								<li><a href="#">最新上市</a></li>
+								<li><a href="#">限量发售</a></li>
+								<li><a href="#">新品发售日历</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<h3 data-target="#collapse_2">运动</h3>
+						<div class="collapse dont-collapse-sm links" id="collapse_2">
+							<ul>
+								<li><a href="#">跑步</a></li>
+								<li><a href="#">训练</a></li>
+								<li><a href="#">足球</a></li>
+								<li><a href="#">篮球</a></li>
+								<li><a href="#">室外</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<h3 data-target="#collapse_3">
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帮助中心</h3>
+						<div class="collapse dont-collapse-sm contacts" id="collapse_3">
+							<ul>
+								<li><a href="#">会员</a></li>
+								<li><a href="#">尺码表</a></li>
+								<li><a href="#">关于我们</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<h3 data-target="#collapse_4">联系我们</h3>
+						<div class="collapse dont-collapse-sm" id="collapse_4">
+							<div id="newsletter">
+								<div class="form-group">
+									<input type="email" name="email_newsletter" id="email_newsletter"
+										class="form-control" placeholder="你的邮箱">
+									<button type="submit" id="submit-newsletter"><i
+											class="ti-angle-double-right"></i></button>
+								</div>
+							</div>
+							<div class="follow_us">
+								<h5>关注我们</h5>
+								<ul>
+									<li><a
+											href="https://weibo.com/n/%e5%8d%8e%e5%8d%97%e5%b8%88%e8%8c%83%e5%a4%a7%e5%ad%a6"><img
+												src="img/svg/微博.svg" alt="" class="lazy"></a></li>
+									<li><a
+											href="https://space.bilibili.com/628111933?from=search&seid=16911714929460060424&spm_id_from=333.337.0.0"><img
+												src="img/svg/wf_B站.svg" alt="" class="lazy"></a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /row-->
+				<hr>
+				<div class="row add_bottom_25">
+					<div class="col-lg-6">
+						<ul class="footer-selector clearfix">
+							<li>
+								<div class="styled-select lang-selector">
+									<select>
+										<option value="Chinese" selected>中文</option>
+										<option value="English">English</option>
+										<option value="French">French</option>
+										<option value="Spanish">Spanish</option>
+										<option value="Russian">Russian</option>
+									</select>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="col-lg-6">
+						<ul class="additional_links">
+							<li><a href="#">SCNU</a></li>
+							<li><span>© 2021</span></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!--/footer-->
+	</div>
+	<!-- page -->
+
+	<div id="toTop"></div><!-- Back to top button -->
+
+
+	<!-- /add_cart_panel -->
+
+
+
+
+	<!-- COMMON SCRIPTS -->
+	<script src="js/common_scripts.min.js"></script>
+	<script src="js/main.js"></script>
+
+	<!-- SPECIFIC SCRIPTS -->
+	<script src="js/carousel_with_thumbs.js"></script>
+
+	<script type="text/javascript">
+		function toComm() {
+			var $sid = window.location.href.split("?")[1];
+			location.href = `http://127.0.0.1:8080/comment.html?${$sid}`;
+		}
+
+		function showComm() {
+			var $sid = window.location.href.split("?")[1];
+			var xhr = new XMLHttpRequest();
+			// 4.创建监听 接收响应信息
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var result = xhr.responseText;
+					var arr = JSON.parse(result);
+					if(arr.length==0){
+						return;
+					}
+					shoeComms.innerHTML="";
+					for (var i = 0; i < arr.length; i++) {
+						var uname = arr[i].uname;
+						var comm = arr[i].content;
+						var star = arr[i].stars;
+						console.log(arr);
+						shoeComms.innerHTML += `<div class="row justify-content-between">
+														<div class="col-lg-6">
+															<div class="review_content">
+																<div class="clearfix add_bottom_10">
+																	<span id="commStar` + i + `" class="rating"></span>
+																</div>
+																<h4>${uname}</h4>
+																<p>${comm}</p>
+															</div>
+														</div>
+													</div>`;
+						var commStar = document.getElementById("commStar" + i);
+						for (var j = 0; j < 5; j++) {
+							if (j < star) {
+								commStar.innerHTML += '<i class="icon-star"></i>';
+							} else {
+								commStar.innerHTML += '<i class="icon-star empty"></i>';
+							}
+						}
+						commStar.innerHTML += `<em>${star}/5</em>`;
+					}
+				}
+			}
+			// 2.创建请求
+			xhr.open("get", `/jyPro/showComm/${$sid}`, true);
+			// 3.发送请求
+			xhr.send();
+		}
+	</script>
+
+	<script>
+		var $id = ``;
+
+		function productDetail() {
+			// 1.获取异步对象
+			var str = window.location.href;
+			var strs = str.split("?");
+			// alert(strs[1]);
+			$id = strs[1];
+			var xhr = new XMLHttpRequest();
+			// 4.创建监听 接收响应信息
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var result = xhr.responseText;
+					// alert(result);
+					var arr = JSON.parse(result);
+					// alert(arr[0].sname);
+					var strs1 = arr[0].sname.split(" ");
+					h1c1.innerHTML = strs1[0];
+					// for(var i=1;i<strs1.length;i++){
+					// 	sma1.innerHTML+=strs1[i]+" ";
+					// }
+					new_price.innerHTML = arr[0].price;
+					old_price.innerHTML = parseInt(arr[0].price / 0.8 / 10) * 10;
+					type1.innerHTML = "种类 : " + arr[0].type;
+					document.getElementById("si").innerHTML=arr[0].type;
+					$type = arr[0].type;
+					var item_box = document.getElementById("item-box");
+					item_box.src = arr[0].imgurl.substring(1);
+					var strs2 = arr[0].description.split(";");
+					var strHTML = ``;
+					for (var i = 0; i < strs2.length / 2; i++) {
+						var str3 = strs2[i].split("：");
+						if (str3[0] == "商品名称") continue;
+						strHTML += `
+								<tr>
+	                                 <td><strong>${str3[0]}</strong></td>
+	                                <td>${str3[1]}</td>
+	                            </tr>
+							`;
+					}
+					guige1.innerHTML = strHTML;
+					strHTML = ``;
+					for (var i = strs2.length / 2; i < strs2.length; i++) {
+						var str3 = strs2[i].split("：");
+						strHTML += `
+								<tr>
+	                                 <td><strong>${str3[0]}</strong></td>
+	                                <td>${str3[1]}</td>
+	                            </tr>
+							`;
+					}
+					guige2.innerHTML = strHTML;
+					// related();
+				}
+
+			}
+			// 2.创建请求
+			xhr.open("get", `/pro/productdetail/${$id}`, true);
+			// 3.发送请求
+			xhr.send();
+		}
+		// $uid
+		function related() {
+			// var $uid=uid.value;
+			// 1.获取异步对象
+			var xhr = new XMLHttpRequest();
+			// 4.创建监听 接收响应信息
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var result = xhr.responseText;
+					var arr = JSON.parse(result);
+					for (var i = 0; i < 5; i++) {
+						var str = $.parseJSON(JSON.stringify(arr[i]));
+						var imgurllink = str.imgurl.substring(1);
+						var n = i + 1;
+						var href1 = document.getElementById("href" + n + "1");
+						var href2 = document.getElementById("href" + n + "2");
+						href1.href = `http://127.0.0.1:8080/productdetail.html?${str.sid}`;
+						href2.href = `http://127.0.0.1:8080/productdetail.html?${str.sid}`;
+						var img = document.getElementById("img" + n);
+						var name = document.getElementById("sid" + n);
+						var price = document.getElementById("price" + n);
+						img.src = imgurllink;
+						name.innerHTML = str.sname.split(" ")[0].substring(0, 10) + "...";
+						price.innerHTML = str.price.toFixed(2) + "元";
+					}
+				}
+			}
+
+			// 2.创建请求
+			xhr.open("get", `/pro/related/${$id}`, true);
+			// 3.发送请求
+			xhr.send();
+		}
+		// var uid = 1;
+		function addCart() {
+			var $theuname = localStorage.getItem("name");
+			var sid = $id;
+			var num = quantity_1.value;
+			// console.log(num)
+			if(parseInt(num)>50){
+				alert("采购数量不能多于50双哦！");
+				return;
+			}
+			var size = shoeSize.value;
+			// 1.获取异步对象
+			var xhr = new XMLHttpRequest();
+			// 4.创建监听 接收响应信息
+			xhr.onreadystatechange = function () {
+				alert("添加成功")
+			}
+			// 2.创建请求
+			xhr.open("post", `/hzwPro/addCart`, true);
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			var formdate = `sid=${sid}&uname=${$theuname}&num=${num}&size=${size}`;
+			xhr.send(formdate);
+		}
+
+		function nameLoad() {
+			var $theuname = localStorage.getItem("name");
+			if ($theuname != null) {
+				headimformation.innerHTML = "欢迎你，" + $theuname;
+				var userloginout = document.getElementById("userloginout");
+				userloginout.style.display = "block";
+			}
+		}
+
+		function loginout() {
+			localStorage.clear();
+			headimformation.innerHTML = "登录或注册";
+		}
+
+		function addtoWish(id) {
+			var $theuname = localStorage.getItem("name");
+			var nnode=document.getElementById(id);
+			var cl= window.getComputedStyle(nnode.children[0].children[0],null)['color'];
+			console.log(cl);
+			if(cl.toString()=='rgb(255, 0, 0)'){
+				nnode.children[0].children[0].style.color="#000000";
+				nnode.children[0].children[1].style.color="#000000";
+				wishsapn.innerHTML = "添加到心愿单";
+				deletewish(id);
+				// alert("已取消添加到心愿单！");
+				return;
+			}
+			if ($theuname != null) {
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState == 4 && xhr.status == 200) {
+						var result = xhr.responseText;
+						if (result == "1") {
+							// alert("添加成功！");
+							// location.href = `http://127.0.0.1:8080/productdetail.html?${$id}`;
+							wishi.style = "color:red";
+							wishsapn.style = "color:red";
+							wishsapn.innerHTML = "已添加到心愿单";
+						}
+						else if (result == "3") {
+							deletewish($id);
+						} else {
+							alert("添加失败！");
+							location.href = `http://127.0.0.1:8080/productdetail.html?${$id}`;
+						}
+					}
+				}
+				// 2.创建请求
+				xhr.open("get", `/pro/addwish/${$id}&${$theuname}`, true);
+				xhr.send();
+			} else {
+				alert("请先登录！");
+			}
+
+		}
+
+		function deletewish(id){
+			var theuname = localStorage.getItem("name");
+			var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var result = xhr.responseText;                  
+					if(result=="1"){
+						// alert("从心愿单中移除成功！");
+						// location.href = `http://127.0.0.1:8080/productdetail.html?${$id}`;
+					}
+					else{
+						alert("从心愿单中移除失败！");
+						location.href = `http://127.0.0.1:8080/productdetail.html?${$id}`;
+					}
+                }
+            }
+            // 2.创建请求
+            xhr.open("delete", `/pro/deletewish/${$id}&${theuname}`, true);
+            // 3.发送请求
+            xhr.send();
+		 }
+
+		function wishstate() {
+			var $theuname = localStorage.getItem("name");
+			if ($theuname != null) {
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState == 4 && xhr.status == 200) {
+						var result = xhr.responseText;
+						var wishi = document.getElementById("wishi");
+						// var wishspan=document
+						if (result == "1") {
+							// alert(1);
+							wishi.style = "color:red";
+							wishsapn.style = "color:red";
+							wishsapn.innerHTML = "已添加到心愿单";
+						} else {
+							wishi.style = "color:black";
+							wishsapn.style = "color:black";
+							wishsapn.innerHTML = "添加到心愿单";
+						}
+					}
+				}
+				// 2.创建请求
+				xhr.open("get", `/pro/wishstate/${$id}&${$theuname}`, true);
+				xhr.send();
+			}
+		}
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="Ansonika">
+	<title>注册页</title>
+
+	<!-- Favicons-->
+	<link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="114x114"
+		href="img/apple-touch-icon-114x114-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144"
+		href="img/apple-touch-icon-144x144-precomposed.png">
+
+	<!-- GOOGLE WEB FONT -->
+	<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+	<link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+		as="fetch" crossorigin="anonymous">
+	<script>
+		!function (e, n, t) { "use strict"; var o = "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap", r = "__3perf_googleFonts_c2536"; function c(e) { (n.head || n.body).appendChild(e) } function a() { var e = n.createElement("link"); e.href = o, e.rel = "stylesheet", c(e) } function f(e) { if (!n.getElementById(r)) { var t = n.createElement("style"); t.id = r, c(t) } n.getElementById(r).innerHTML = e } e.FontFace && e.FontFace.prototype.hasOwnProperty("display") ? (t[r] && f(t[r]), fetch(o).then(function (e) { return e.text() }).then(function (e) { return e.replace(/@font-face {/g, "@font-face{font-display:swap;") }).then(function (e) { return t[r] = e }).then(f).catch(a)) : a() }(window, document, localStorage);
+	</script>
+
+	<!-- BASE CSS -->
+	<link href="css/bootstrap.custom.min.css" rel="stylesheet">
+	<link href="css/style1.css" rel="stylesheet">
+
+	<!-- SPECIFIC CSS -->
+	<link href="css/account1.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+	<div id="page">
+
+
+
+		<main class="bg_gray" style="background-image:url(./img/1.jpg); background-size:cover">
+
+			<div class="container margin_30">
+				<div class="page_header">
+					<!-- <h1 style="color: white;">创建帐户</h1> -->
+				</div>
+				<!-- /page_header -->
+				<div class="row justify-content-center">
+
+					<div class="col-xl-6 col-lg-6 col-md-8">
+						<div class="box_account">
+							<h3 class="new_client" style="color: white;">创建新用户</h3> <small class="float-right pt-2" style="color: white;">* 必填字段</small>
+							<div class="form_container">
+								<div class="form-group">
+									<input type="" class="form-control" name="uname" id="uname" onblur="check_uname()"
+										placeholder="用户名* 3-12位">
+									<span id="uname_msg"></span>
+								</div>
+								<div class="form-group">
+									<input type="password" class="form-control" name="upwd" id="upwd" value=""
+										placeholder="密码* 6-12位">
+									<span id="upwd_msg"></span>
+								</div>
+								<div class="form-group">
+									<input type="password" class="form-control" name="cpwd" id="cpwd" value=""
+										placeholder="确认密码*">
+									<span id="cpwd_msg"></span>
+								</div>
+
+								<div class="private box">
+									<div class="row no-gutters">
+										<div class="col-12">
+											<div class="form-group">
+												<input type="text" class="form-control" name="address" id="address"
+													placeholder="地址*">
+												<span id="address_msg"></span>
+											</div>
+										</div>
+									</div>
+									<!-- /row -->
+
+									<!-- /row -->
+
+									<div class="row no-gutters">
+										<div class="col-6 pr-1">
+											<div class="custom-select-form">
+												<select class="wide add_bottom_10" name="sex" id="sex">
+													<option value="男" selected>男</option>
+													<option value="女">女</option>
+
+												</select>
+											</div>
+										</div>
+										<div class="col-6 pl-1">
+											<div class="form-group">
+												<input type="text" class="form-control" id="phone" placeholder="电话号码 *">
+												<span id="phone_msg"></span>
+											</div>
+										</div>
+									</div>
+									<!-- /row -->
+
+								</div>
+
+
+								<!-- /company -->
+
+								<div class="form-group">
+									<label class="container_check">接受 <a href="#0">条款和条件</a>
+										<input type="checkbox" id="tk" checked=false>
+										<span class="checkmark"></span>
+									</label>
+								</div>
+								<div class="text-center"><input type="submit" value="注册" class="btn_1 full-width"
+										onclick="register()"></div>
+							</div>
+							<!-- /form_container -->
+						</div>
+						<!-- /box_account -->
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</main>
+		<!--/main-->
+		
+	</div>
+	<!-- page -->
+
+	<div id="toTop"></div><!-- Back to top button -->
+
+	<!-- COMMON SCRIPTS -->
+	<script src="js/common_scripts.min.js"></script>
+	<script src="js/main.js"></script>
+
+	<script>
+		// Client type Panel
+		$('input[name="client_type"]').on("click", function () {
+			var inputValue = $(this).attr("value");
+			var targetBox = $("." + inputValue);
+			$(".box").not(targetBox).hide();
+			$(targetBox).show();
+		});
+
+
+		var uname_check3 = false;
+
+		function register() {
+
+			// 第二步 (2) 验证true时注册
+			if (uname_check3 && check_upwd() && check_cpwd() && check_address() && check_phone()) {
+
+				if (document.getElementById("tk").checked) {
+					var $uname = uname.value;
+					var $upwd = upwd.value;
+					var $cpwd = cpwd.value;
+					var $phone = phone.value;
+					var $address = address.value;
+					var $sex = sex.value;
+
+					var xhr = new XMLHttpRequest();
+					// 4.创建监听 接收响应信息
+					xhr.onreadystatechange = function () {
+						if (xhr.readyState == 4 && xhr.status == 200) {
+							var result = xhr.responseText;
+
+							if (result == 1) {
+								alert("注册成功");
+								location.href = "login.html";
+							} else {
+								alert("注册失败");
+							}
+						}
+					}
+					// 2.创建请求
+					xhr.open("post", "/user/register/", true);
+					// 3.发送请求
+					xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+					var formdate = `uname=${$uname}&upwd=${$upwd}&usex=${$sex}&uphone=${$phone}&uaddress=${$address}`;
+					xhr.send(formdate);
+				} else {
+					alert("请接收条款和条件！");
+					return;
+				}
+
+			} else {
+				return;
+			}
+		}
+
+
+
+		// 第一步 （2）页面标签和鼠标获取和失去焦点
+		// 获取焦点
+		// 失去焦点
+		function check_uname() {
+			if (!uname.value) {
+				alert("用户名为空");
+				uname_check3 = false;
+			} else if (uname.value.length >= 3 && uname.value.length <= 12) {
+				// 4.创建监听 接收响应信息
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState == 4 && xhr.status == 200) {
+						var result = xhr.responseText;
+
+						if (result == 1) {
+							alert("该用户名已注册！");
+							uname_check3 = false;
+						} else if (result == 0) {
+							uname_check3 = true;
+						}
+					}
+				}
+				var $uname2 = uname.value;
+				// 2.创建请求
+				xhr.open("get", `/user/queryUser/${$uname2}`, true);
+				// 3.发送请求
+				xhr.send();
+
+			} else {
+
+				alert("用户名长度不正确");
+				check_uname3 = false;
+			}
+		}
+
+		function check_upwd() {
+			if (!upwd.value) {
+
+				alert("密码为空"); return false;
+			} else if (upwd.value.length >= 6 && upwd.value.length <= 12) {
+				return true;
+			} else {
+				alert("密码长度不正确！"); return false;
+			}
+		}
+		function check_cpwd() {
+			if (!cpwd.value) {
+
+				alert("请再次输入密码！"); return false;
+			} else if (cpwd.value == upwd.value) {
+
+				return true;
+			} else {
+
+				alert("两次密码不一致!"); return false;
+			}
+		}
+
+		function check_phone() {
+			if (phone.value) {
+
+				return true;
+			} else {
+				alert("电话号码为空！"); return false;
+			}
+		}
+		function check_address() {
+			if (address.value) {
+				return true;
+			} else {
+				alert("地址为空"); return false;
+			}
+		}
+	</script>
+
+</body>
+
+</html>
