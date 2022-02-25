@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="Ansonika">
+	<title>Allaia | Bootstrap eCommerce Template - ThemeForest</title>
+
+	<!-- Favicons-->
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="114x114"
+		href="img/apple-touch-icon-114x114-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144"
+		href="img/apple-touch-icon-144x144-precomposed.png">
+
+	<!-- GOOGLE WEB FONT -->
+	<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+	<link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+		as="fetch" crossorigin="anonymous">
+	<script>
+		!function (e, n, t) { "use strict"; var o = "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap", r = "__3perf_googleFonts_c2536"; function c(e) { (n.head || n.body).appendChild(e) } function a() { var e = n.createElement("link"); e.href = o, e.rel = "stylesheet", c(e) } function f(e) { if (!n.getElementById(r)) { var t = n.createElement("style"); t.id = r, c(t) } n.getElementById(r).innerHTML = e } e.FontFace && e.FontFace.prototype.hasOwnProperty("display") ? (t[r] && f(t[r]), fetch(o).then(function (e) { return e.text() }).then(function (e) { return e.replace(/@font-face {/g, "@font-face{font-display:swap;") }).then(function (e) { return t[r] = e }).then(f).catch(a)) : a() }(window, document, localStorage);
+	</script>
+
+	<!-- BASE CSS -->
+	<link href="css/bootstrap.custom.min.css" rel="stylesheet">
+	<link href="css/style1.css" rel="stylesheet">
+
+	<!-- SPECIFIC CSS -->
+	<link href="css/account1.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+	<div id="page">
+		
+		<main class="bg_gray" style="background-image:url(./img/1.jpg); background-size:cover">
+
+			<div class="container margin_30">
+				<div class="page_header">
+					
+					
+				</div>
+				<!-- /page_header -->
+				<div class="row justify-content-center">
+					<div class="col-xl-6 col-lg-6 col-md-8">
+						<div class="box_account">
+							<h3 class="client">登录</h3>
+							<div class="form_container">
+								<div class="row no-gutters">
+									<div class="col-lg-6 pr-lg-1">
+										<a href="#0" class="social_bt facebook">脸书登录</a>
+									</div>
+									<div class="col-lg-6 pl-lg-1">
+										<a href="#0" class="social_bt google">谷歌登录</a>
+									</div>
+								</div>
+								<div class="divider"><span>Or</span></div>
+								<div class="form-group">
+									<input class="form-control" name="uname__login" onblur="check_uname()" id="uname" placeholder="用户名*">
+									<span id="uname_msg"></span>
+								</div>
+								<div class="form-group">
+									<input type="password" class="form-control" name="upwd" id="upwd" onblur="check_upwd()"  placeholder="密码*">
+									<span id="upwd_msg"></span>
+								</div>
+								<div class="clearfix add_bottom_15" style="margin-top:30px">
+									<div class="checkboxes float-left">
+										<label class="container_check">客户
+											<input type="radio" name="type" value="kehu" checked=true>
+											<span class="checkmark"></span>
+										</label>
+										<label class="container_check">管理员
+											<input type="radio" name="type" value="admin">
+											<span class="checkmark"></span>
+										</label>
+									</div>
+									<div class="float-right"><a id="forgot" href="javascript:void(0);">忘记密码？</a></div>
+								</div>
+								<div class="text-center"><input type="submit" value="登    录" class="btn_1 full-width"
+										onclick="login()">
+									<input type="submit" value="注    册" class="btn_1 full-width" onclick="change()">
+								</div>
+								<div id="forgot_pw">
+									<div class="form-group">
+										<input type="email" class="form-control" name="email_forgot" id="email_forgot"
+											placeholder="Type your email">
+									</div>
+									<p>即将发送新密码</p>
+									<div class="text-center"><input type="submit" value="Reset Password" class="btn_1">
+									</div>
+								</div>
+							</div>
+							<!-- /form_container -->
+						</div>
+						<!-- /box_account -->
+						<div class="row">
+							<div class="col-md-6 d-none d-lg-block">
+								<ul class="list_ok">
+									<li>查找位置</li>
+									<li>质量定位检查</li>
+									<li>数据保护</li>
+								</ul>
+							</div>
+							<div class="col-md-6 d-none d-lg-block">
+								<ul class="list_ok">
+									<li>安全支付</li>
+									<li>24小时支持</li>
+								</ul>
+							</div>
+						</div>
+						<!-- /row -->
+					</div>
+
+		</main>
+		<!--/main-->
+		
+	</div>
+	<!-- page -->
+
+	<div id="toTop"></div><!-- Back to top button -->
+
+	<!-- COMMON SCRIPTS -->
+	<script src="js/common_scripts.min.js"></script>
+	<script src="js/main.js"></script>
+
+	<script>
+		// Client type Panel
+		$('input[name="client_type"]').on("click", function () {
+			var inputValue = $(this).attr("value");
+			var targetBox = $("." + inputValue);
+			$(".box").not(targetBox).hide();
+			$(targetBox).show();
+		});
+
+		function change() {
+			window.location.href = "http://127.0.0.1:8080/reg.html";
+		}
+
+		var uname_check = false;
+		var upwd_check = false;
+
+
+		function login() {
+
+			if (uname_check != true || upwd_check != true) {
+				alert("请输入正确的用户名和密码！");
+				return;
+			}
+			var $type_value=document.querySelector('[name="type"]:checked').value;
+			
+			var $uname = uname.value;
+			var $upwd = upwd.value;
+			// 1.获取异步对象
+			var xhr = new XMLHttpRequest();
+			// 4.创建监听 接收响应信息
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var result = xhr.responseText;
+					if (result == 1) {
+						if($type_value=="kehu" && $uname!="admin"){
+							localStorage.setItem("name",$uname);
+							// alert("客户："+$uname+"   登录成功！");
+							location.href = "http://127.0.0.1:8080/index.html";
+						}else if($type_value=="admin" && $uname=="admin"){
+							localStorage.setItem("adname",$uname);
+							alert("管理员："+$uname+"   登录成功！");
+							location.href = "http://127.0.0.1:8080/manageshoes.html";
+						}else{
+							alert("登录类型或登录帐号不匹配！")
+							return;
+						}
+					} else if (result == 0) {
+						alert("用户名或密码错误");
+						return;
+					}
+				}
+			}
+			// 2.创建请求
+			xhr.open("post", "/user/login/", true);
+			// 3.发送请求
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			var formdate = `uname=${$uname}&upwd=${$upwd}`;
+			xhr.send(formdate);
+		}
+
+	
+	
+		// 鼠标失去焦点时
+		function check_uname() {
+			if (!uname.value) {
+				uname_msg.innerHTML = "×";
+				uname_check = false;
+			} else if (uname.value.length >= 3 && uname.value.length <= 12) {
+				uname_msg.innerHTML = "√";
+				uname_check = true;
+			} else {
+				uname_msg.innerHTML = "用户名长度不正确";
+				uname_check = false;
+			}
+		}
+		function check_upwd() {
+			if (!upwd.value) {
+				upwd_msg.innerHTML = "×";
+				upwd_check = false;
+			} else if (upwd.value.length >= 6 && upwd.value.length <= 16) {
+				upwd_msg.innerHTML = "√";
+				upwd_check = true;
+			} else {
+				upwd_msg.innerHTML = "密码长度不正确";
+				upwd_check = false;
+			}
+		}
+
+	</script>
+
+</body>
+
+</html>

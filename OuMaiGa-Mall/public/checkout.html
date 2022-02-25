@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="Ansonika">
+	<title>结算页面</title>
+
+	<!-- GOOGLE WEB FONT -->
+	<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+	<link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+		as="fetch" crossorigin="anonymous">
+
+	<!-- BASE CSS -->
+	<link href="css/bootstrap.custom.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+
+	<!-- SPECIFIC CSS -->
+	<link href="css/checkout.css" rel="stylesheet">
+	<script>
+		var ssid;
+
+		function deal(ss) {
+
+			var sn = ssid;
+			var tt = 0;
+			// 1.获取异步对象
+			var xhr = new XMLHttpRequest();
+			// 4.创建监听 接收响应信息
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					// console.log(sn);
+					var result = xhr.responseText;
+					// console.log(result);
+					result = result.substring(1, result.length - 1);
+					var arr = new Array();
+					var j = 0;
+					var k = 0;
+					for (var i = 0; i < result.length; i++) {
+						if (result[i] == '{') {
+							k = 1;
+						}
+						if (k == 1) {
+							arr[j] = arr[j] + result[i];
+						}
+						if (result[i] == '}') {
+							k = 0;
+							arr[j] = arr[j].substring(9);
+							j++;
+						}
+					}
+					// console.log(arr[0]);
+					var str = "";
+					for (var i = 0; i < sn.sid.length; i++) {
+						var price;
+						var imgurl;
+						var sname;
+						for (var j = 0; j < arr.length; j++) {
+							var data = JSON.parse(arr[j]);
+							// console.log(data);
+							if (sn.sid[i] == data.sid) {
+								price = data.price;
+								imgurl = data.imgurl;
+								sname = data.sname;
+								break;
+							}
+						}
+						tt = tt + price * sn.num[i];
+						if (sname.length > 55) {
+							sname = sname.substring(0, 55) + "...";
+						}
+						str = str + '<li class="clearfix">' +
+							'<div style="display: flex;justify-content: space-between;">' +
+							'<img src="' +
+							imgurl +
+							'" width="60px" height="60px"/><div style="display:flex;flex-flow: column;"><div style="width: 400px;display: table-cell;vertical-align: top;height: 40px;">' +
+							sname + '</div><font style="padding-top:5px" size="1" color="gray">尺码：' +
+							sn.size[i] + '</font></div><span style="height: 50px;float: right;width:50px">×' +
+							(sn.num[i]).toString() + '</span><span style="height: 50px;float: right;width:70px">' +
+							'￥' + price + '</span>' + '</div>' +
+							'</li>';
+					}
+					document.getElementById("goods").innerHTML = str;
+					document.getElementById("total").innerHTML = '￥' + tt;
+					document.getElementById("total1").innerHTML = '￥' + tt;
+				}
+			}
+			// 2.创建请求
+			xhr.open("get", `/pro/checkout/${sn.sid}`, true);
+			// 3.发送请求
+			xhr.send();
+
+			//需要修改
+			var name = localStorage.getItem("name");
+			// console.log(name)
+			// 1.获取异步对象
+			var xhr1 = new XMLHttpRequest();
+			// 4.创建监听 接收响应信息
+			xhr1.onreadystatechange = function () {
+				if (xhr1.readyState == 4 && xhr1.status == 200) {
+					var result = xhr1.responseText;
+					result = result.substring(1, result.length - 1);
+					res = JSON.parse(result);
+					document.getElementById("sname").value = res.uname;
+					document.getElementById("scity").value = res.ucity;
+					document.getElementById("scode").value = res.ucode;
+					document.getElementById("saddress").value = res.uaddress;
+					document.getElementById("sphone").value = res.uphone;
+				}
+			}
+			// 2.创建请求
+			xhr1.open("get", `/pro/fill/${name}`, true);
+			// 3.发送请求
+			xhr1.send();
+
+		}
+
+		window.onload = function () {
+			var $theuname = localStorage.getItem("name");
+			if ($theuname != null) {
+				headimformation.innerHTML = "欢迎你，" + $theuname;
+				var userloginout = document.getElementById("userloginout");
+				userloginout.style.display = "block";
+			} else {
+				alert("请先登录！");
+				location.href = "./login.html";
+				return;
+			}
+			
+			var arr1 = new Array(),
+				arr2 = new Array(),
+				arr3 = new Array();
+				
+			var xhr = new XMLHttpRequest();
+			// 4.创建监听 接收响应信息
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var result = xhr.responseText;
+					var arr = JSON.parse(result);
+					if (arr.length == 0) {
+						alert("请先选择需要购买的商品在生成订单！");
+						window.location.href = "./cart.html";
+					}
+					console.log(arr);
+					for (var i = 0; i < arr.length; i++) { //将1和0转换为男和女
+						var obj = $.parseJSON(JSON.stringify(arr[i]));
+						// console.log(JSON.stringify(obj));
+						arr1[i] = obj.sid;
+						arr2[i] = obj.num;
+						arr3[i] = obj.size;
+					}
+					var ss = {
+						sid: arr1,
+						num: arr2,
+						size: arr3
+					};
+					ssid = ss;
+					console.log(ssid);
+					deal(ss);
+				}
+			}
+			// 2.创建请求
+			xhr.open("get", `/hzwPro/showCart/${$theuname}`, true);
+			// 3.发送请求
+			xhr.send();
+		}
+
+		function check() {
+			var nname = localStorage.getItem("name");
+			var name = document.getElementById("sname").value;
+			var city = document.getElementById("scity").value;
+			var code = document.getElementById("scode").value;
+			var add = document.getElementById("saddress").value;
+			var phone = document.getElementById("sphone").value;
+			var total = document.getElementById("total1").innerText.substring(1);
+			console.log(total);
+			//需要修改
+			var sn = JSON.stringify(ssid);
+			console.log(sn);
+			// var sn=JSON.parse(sid);
+			if (name.length == 0 || city.length == 0 || code.length == 0 || add.length == 0 || phone.length == 0) {
+				alert("请完善收货人信息");
+				return;
+			}
+			// 1.获取异步对象
+			var xhr = new XMLHttpRequest();
+			// 4.创建监听 接收响应信息
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var result = xhr.responseText;
+				}
+			}
+			// 2.创建请求
+			xhr.open("put", "/pro/createorder", true);
+			xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+			// 3.发送请求
+			var formdata =
+				`nname=${nname}&uname=${name}&ucity=${city}&ucode=${code}&uphone=${phone}&uadd=${add}&sn=${sn}&total=${total}`;
+			xhr.send(formdata);
+			window.location.href = "http://127.0.0.1:8080/confirm.html";
+		}
+
+		function nameLoad() {
+
+		}
+
+		function loginout() {
+			localStorage.clear();
+			headimformation.innerHTML = "登录或注册";
+		}
+	</script>
+</head>
+
+<body>
+
+	<div id="page">
+		<header class="version_1">
+			<div class="layer"></div><!-- Mobile menu overlay mask -->
+			<div class="main_header">
+				<div class="container">
+					<div class="row small-gutters">
+						<div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
+							<div id="logo">
+								<a href="index.html"><img src="img/brands/logo.png" alt="" width="150" height="55"></a>
+							</div>
+						</div>
+						<nav class="col-xl-6 col-lg-7">
+
+							<!-- Mobile menu button -->
+							<div class="main-menu">
+								<div id="header_menu">
+									<a href="index.html"><img src="img/logo_black.svg" alt="" width="100"
+											height="35"></a>
+									<a href="#" class="open_close" id="close_in"><i class="ti-close"></i></a>
+								</div>
+
+							</div>
+							<!--/main-menu -->
+						</nav>
+
+					</div>
+					<!-- /row -->
+				</div>
+			</div>
+			<!-- /main_header -->
+
+			<div class="main_nav inner Sticky">
+				<div class="container">
+					<div class="row small-gutters">
+						<div class="col-xl-3 col-lg-3 col-md-3">
+							<nav class="categories" style="display: none;">
+								<ul class="clearfix">
+									<li><span>
+											<a href="#">
+												<span class="hamburger hamburger--spin">
+													<span class="hamburger-box">
+														<span class="hamburger-inner"></span>
+													</span>
+												</span>
+												种类
+											</a>
+										</span>
+										<div id="menu">
+											<ul>
+												<li><span onclick="searchByType('儿童运动鞋')"><a href="">儿童运动鞋</a></span>
+												</li>
+												<li><span onclick="searchByType('跑步鞋')"><a href="#">跑步鞋</a></span>
+												</li>
+												<li><span onclick="searchByType('板鞋')"><a href="#">板鞋</a></span>
+												</li>
+												<li><span onclick="searchByType('男靴')"><a href="#">男靴</a></span>
+												</li>
+												<li><span onclick="searchByType('休闲鞋')"><a href="#">休闲鞋</a></span>
+												</li>
+												<li><span onclick="searchByType('篮球鞋')"><a href="#">篮球鞋</a></span>
+												</li>
+												<li><span onclick="searchByType('商务休闲鞋')"><a href="#">商务休闲鞋</a></span>
+												</li>
+												<li><span onclick="searchByType('帆布鞋')"><a href="#">帆布鞋</a></span>
+												</li>
+												<li><span onclick="searchByType('正装鞋')"><a href="#">正装鞋</a></span>
+												</li>
+												<li><span onclick="searchByType('传统布鞋')"><a href="#">传统布鞋</a></span>
+												</li>
+												<li><span onclick="searchByType('拖鞋')"><a href="#">拖鞋</a></span>
+												</li>
+											</ul>
+										</div>
+									</li>
+								</ul>
+							</nav>
+						</div>
+						<div class="col-xl-6 col-lg-7 col-md-6 d-none d-md-block">
+							<div class="custom-search-input" style="display: none;">
+								<!-- <input type="text" placeholder="搜索商品" id="searchName">
+								<button type="submit" onclick="search()"><i
+										class="header-icon_search_custom"></i></button> -->
+							</div>
+						</div>
+						<div class="col-xl-3 col-lg-2 col-md-3">
+							<ul class="top_tools">
+								<li>
+									<div class="dropdown dropdown-cart">
+										<a href="cart.html" class="cart_bt"><strong>2</strong></a>
+										<div class="dropdown-menu">
+											<!-- <ul>
+													<li>
+														<a href="product-detail-1.html">
+															<figure><img src="img/products/product_placeholder_square_small.jpg" data-src="img/products/shoes/thumb/1.jpg" alt="" width="50" height="50" class="lazy"></figure>
+															<strong><span>1x Armor Air x Fear</span>$90.00</strong>
+														</a>
+														<a href="#0" class="action"><i class="ti-trash"></i></a>
+													</li>											
+												</ul> -->
+											<div class="total_drop">
+												<div class="clearfix">
+													<strong>Total</strong>
+													<!-- <span>$200.00</span> -->
+												</div>
+												<a href="./cart.html" class="btn_1 outline">查看购物车</a><a
+													href="./checkout.html" class="btn_1">去结算</a>
+											</div>
+										</div>
+									</div>
+									<!-- /dropdown-cart-->
+								</li>
+								<li>
+									<a href="./wishlist.html" class="wishlist"><span>心愿单</span></a>
+								</li>
+								<li>
+									<div class="dropdown dropdown-access">
+										<a href="account.html" class="access_link"><span>账号</span></a>
+										<div class="dropdown-menu">
+											<a href="#" class="btn_1" id="headimformation">登录或注册</a>
+											<ul>
+												<li>
+													<a href="account.html"><i class="ti-package"></i>我的订单</a>
+												</li>
+												<li>
+													<a href="./persondetail.html"><i class="ti-user"></i>我的账户</a>
+												</li>
+												<li id="userloginout" style="display:none;" onclick="loginout()">
+													<a href="./login.html"><i class="ti-user"></i>退出账号</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<!-- /dropdown-access-->
+								</li>
+								<li>
+									<a href="javascript:void(0);" class="btn_search_mob"><span>搜索</span></a>
+								</li>
+								<li>
+									<a href="#menu" class="btn_cat_mob">
+										<div class="hamburger hamburger--spin" id="hamburger">
+											<div class="hamburger-box">
+												<div class="hamburger-inner"></div>
+											</div>
+										</div>
+										Categories
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- /row -->
+				</div>
+				<div class="search_mob_wp">
+					<input type="text" class="form-control" placeholder="Search over 10.000 products">
+					<input type="submit" class="btn_1 full-width" value="Search">
+				</div>
+				<!-- /search_mobile -->
+			</div>
+			<!-- /main_nav -->
+		</header>
+
+		<main class="bg_gray">
+			<div class="container margin_30">
+				<div class="page_header">
+
+					<h1>确定收货人信息并进行结算</h1>
+
+				</div>
+				<!-- /page_header -->
+				<div class="row">
+					<div class="col-lg-5 col-md-6">
+						<div class="step first">
+							<h3>1. 收货人信息</h3>
+							<div class="tab-content checkout">
+								<div class="tab-pane fade show active" id="tab_1" role="tabpanel"
+									aria-labelledby="tab_1">
+									<div class="form-group">
+										<input type="text" id="sname" class="form-control" placeholder="姓名">
+									</div>
+									<!-- /row -->
+									<div class="row no-gutters">
+										<div class="col-6 form-group pr-1">
+											<input type="text" id="scity" class="form-control" placeholder="城市">
+										</div>
+										<div class="col-6 form-group pl-1">
+											<input type="text" id="scode" class="form-control" placeholder="邮政编码">
+										</div>
+									</div>
+									<div class="form-group">
+										<input type="text" id="saddress" class="form-control" placeholder="完整地址">
+									</div>
+									<!-- /row -->
+									<div class="form-group">
+										<input type="text" id="sphone" class="form-control" placeholder="电话号码">
+									</div>
+									<hr>
+								</div>
+								<!-- /tab_1 -->
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-7 col-md-6">
+						<div class="step last">
+							<h3>2. 订单</h3>
+							<div class="box_general summary">
+								<ul id="goods">
+									<li class="clearfix">
+										<!-- <img src="#" width="50px" height="50px" /> -->
+										<div
+											style="width: 357;display: table-cell;vertical-align: middle;height: 50px;">
+											</div><span
+											style="height: 50px;line-height: 50px;float: right;">$0.00</span>
+									</li>
+								</ul>
+								<ul>
+									<li class="clearfix"><em><strong>小计</strong></em> <span id="total">￥0.00</span>
+									</li>
+									<li class="clearfix"><em><strong>运费</strong></em> <span>￥0.00</span></li>
+
+								</ul>
+								<div class="total clearfix">总计 <span id="total1">￥0.00</span></div>
+
+								<a href="#" onclick="check()" class="btn_1 full-width">确定支付</a>
+							</div>
+							<!-- /box_general -->
+						</div>
+						<!-- /step -->
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</main>
+		<!--/main-->
+	</div>
+	<!-- page -->
+
+
+	<!-- COMMON SCRIPTS -->
+	<script src="js/common_scripts.min.js"></script>
+	<script src="js/main.js"></script>
+
+	<footer class="revealed">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6">
+					<h3 data-target="#collapse_1">产品</h3>
+					<div class="collapse dont-collapse-sm links" id="collapse_1">
+						<ul>
+							<li><a href="#">最新上市</a></li>
+							<li><a href="#">限量发售</a></li>
+							<li><a href="#">新品发售日历</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<h3 data-target="#collapse_2">运动</h3>
+					<div class="collapse dont-collapse-sm links" id="collapse_2">
+						<ul>
+							<li><a href="#">跑步</a></li>
+							<li><a href="#">训练</a></li>
+							<li><a href="#">足球</a></li>
+							<li><a href="#">篮球</a></li>
+							<li><a href="#">室外</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<h3 data-target="#collapse_3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帮助中心</h3>
+					<div class="collapse dont-collapse-sm contacts" id="collapse_3">
+						<ul>
+							<li><a href="#">会员</a></li>
+							<li><a href="#">尺码表</a></li>
+							<li><a href="#">关于我们</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<h3 data-target="#collapse_4">联系我们</h3>
+					<div class="collapse dont-collapse-sm" id="collapse_4">
+						<div id="newsletter">
+							<div class="form-group">
+								<input type="email" name="email_newsletter" id="email_newsletter" class="form-control"
+									placeholder="你的邮箱">
+								<button type="submit" id="submit-newsletter"><i
+										class="ti-angle-double-right"></i></button>
+							</div>
+						</div>
+						<div class="follow_us">
+							<h5>关注我们</h5>
+							<ul>
+								<li><a
+										href="https://weibo.com/n/%e5%8d%8e%e5%8d%97%e5%b8%88%e8%8c%83%e5%a4%a7%e5%ad%a6"><img
+											src="img/svg/微博.svg" alt="" class="lazy"></a></li>
+								<li><a
+										href="https://space.bilibili.com/628111933?from=search&seid=16911714929460060424&spm_id_from=333.337.0.0"><img
+											src="img/svg/wf_B站.svg" alt="" class="lazy"></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /row-->
+			<hr>
+			<div class="row add_bottom_25">
+				<div class="col-lg-6">
+					<ul class="footer-selector clearfix">
+						<li>
+							<div class="styled-select lang-selector">
+								<select>
+									<option value="Chinese" selected>中文</option>
+									<option value="English">English</option>
+									<option value="French">French</option>
+									<option value="Spanish">Spanish</option>
+									<option value="Russian">Russian</option>
+								</select>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="col-lg-6">
+					<ul class="additional_links">
+						<li><a href="#">SCNU</a></li>
+						<li><span>© 2021</span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+</body>
+
+</html>
